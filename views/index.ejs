@@ -1,0 +1,279 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+    <!-- Section Titre / Hero Élégant -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="hero-card shadow-sm text-center">
+                <span class="badge bg-primary text-white text-uppercase px-3 py-1 mb-2">Transport Sanitaire & Conventionné</span>
+                <h1 class="display-5 fw-bold mb-2">
+                    Système de Planification Taxi Médical
+                </h1>
+                <p class="lead text-muted mb-4 mx-auto" style="max-width: 680px;">
+                    Optimisation automatique, cartographie des secteurs de Nice et répartition intelligente des courses de taxi médical.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a class="btn btn-primary-custom btn-lg px-4" href="/planning_auto" role="button">
+                        <i class="fas fa-magic me-2"></i> Créer un Nouveau Planning
+                    </a>
+                    <a class="btn btn-outline-secondary btn-lg px-4" href="/planning_history" role="button">
+                        <i class="fas fa-history me-2"></i> Consulter l'Historique
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plannings Récents -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-check me-2"></i>Plannings Récents Archivés
+                    </h5>
+                    <a href="/planning_history" class="btn btn-sm btn-light fw-semibold">
+                        <i class="fas fa-list me-1"></i> Tout afficher
+                    </a>
+                </div>
+                <div class="card-body p-0" id="recentPlanningsSection">
+                    <div class="text-center py-4 text-muted">
+                        <i class="fas fa-spinner fa-spin me-2"></i> Chargement des plannings récents...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accès Rapide -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card action-card h-100 shadow-sm text-center p-3">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <div class="action-card-icon primary">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Planning d'Aujourd'hui</h5>
+                    <p class="text-muted small mb-3">Consulter les réservations et départs du jour actuel</p>
+                    <button class="btn btn-outline-primary w-100 mt-auto" id="todayPlanningBtn" data-date="">
+                        <i class="fas fa-eye me-1"></i> Voir Aujourd'hui
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card action-card h-100 shadow-sm text-center p-3">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <div class="action-card-icon success">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Planning de Demain</h5>
+                    <p class="text-muted small mb-3">Consulter ou générer le planning de la journée de demain</p>
+                    <button class="btn btn-outline-success w-100 mt-auto" id="tomorrowPlanningBtn" data-date="">
+                        <i class="fas fa-eye me-1"></i> Voir Demain
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card action-card h-100 shadow-sm text-center p-3">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <div class="action-card-icon warning">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Nouvelle Planification</h5>
+                    <p class="text-muted small mb-3">Uploader un fichier texte et lancer l'optimisation heuristique</p>
+                    <a href="/planning_auto" class="btn btn-warning w-100 mt-auto text-dark fw-semibold">
+                        <i class="fas fa-plus me-1"></i> Créer Maintenant
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques Système -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Aperçu Opérationnel de la Flotte
+                    </h5>
+                </div>
+                <div class="card-body" id="systemStatsSection">
+                    <div class="text-center py-3 text-muted">
+                        <i class="fas fa-spinner fa-spin me-2"></i> Chargement des statistiques...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation / proposition de création -->
+<div class="modal fade" id="planningPromptModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalPromptTitle">Planning non trouvé</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body" id="modalPromptBody">
+                Aucun planning trouvé pour cette date. Voulez-vous en créer un maintenant ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <a href="/planning_auto" class="btn btn-primary" id="modalPromptAction">Créer un planning</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const todayStr = today.toISOString().split('T')[0];
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+    const todayBtn = document.getElementById('todayPlanningBtn');
+    const tomorrowBtn = document.getElementById('tomorrowPlanningBtn');
+
+    todayBtn.dataset.date = todayStr;
+    tomorrowBtn.dataset.date = tomorrowStr;
+
+    loadRecentPlannings();
+    loadSystemStats();
+
+    todayBtn.addEventListener('click', function() {
+        checkAndViewPlanning(this.dataset.date, "aujourd'hui");
+    });
+
+    tomorrowBtn.addEventListener('click', function() {
+        checkAndViewPlanning(this.dataset.date, 'demain');
+    });
+
+    function checkAndViewPlanning(date, dateLabel) {
+        fetch(`/check_existing_planning/${date}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                window.location.href = `/view_saved_planning/${date}`;
+            } else {
+                document.getElementById('modalPromptTitle').textContent = `Planning pour ${dateLabel}`;
+                document.getElementById('modalPromptBody').textContent = `Aucun planning archivé trouvé pour ${dateLabel} (${date}). Souhaitez-vous générer le planning dès maintenant ?`;
+                const promptModal = new bootstrap.Modal(document.getElementById('planningPromptModal'));
+                promptModal.show();
+            }
+        })
+        .catch(error => {
+            console.error('Erreur vérification:', error);
+            window.location.href = '/planning_auto';
+        });
+    }
+
+    function loadRecentPlannings() {
+        fetch('/recent_plannings')
+        .then(response => response.text())
+        .then(html => {
+            const section = document.getElementById('recentPlanningsSection');
+            if (html && html.trim().length > 0 && !html.includes('Aucun planning archivé')) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                const items = tempDiv.querySelectorAll('.planning-item');
+                if (items.length > 0) {
+                    let formatted = '<ul class="list-group list-group-flush mb-0">';
+                    items.forEach(item => {
+                        const date = item.getAttribute('data-date') || '';
+                        const taxi = item.getAttribute('data-taxi') || '';
+                        const url = item.getAttribute('data-url') || '#';
+                        formatted += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded p-2 me-3 text-center" style="width: 44px; height: 44px;">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">${date}</h6>
+                                    <small class="text-muted"><i class="fas fa-taxi text-primary me-1"></i>${taxi} taxi(s) mobilisé(s)</small>
+                                </div>
+                            </div>
+                            <a href="${url}" class="btn btn-sm btn-outline-primary px-3 fw-semibold">
+                                Consulter <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </li>`;
+                    });
+                    formatted += '</ul>';
+                    section.innerHTML = formatted;
+                } else {
+                    section.innerHTML = html;
+                }
+            } else {
+                section.innerHTML = `
+                    <div class="p-4 text-center">
+                        <i class="fas fa-calendar-times fa-2x text-muted mb-2 d-block"></i>
+                        <p class="text-muted mb-2">Aucun planning archivé pour le moment.</p>
+                        <a href="/planning_auto" class="btn btn-primary-custom btn-sm">
+                            <i class="fas fa-plus me-1"></i> Créer votre premier planning
+                        </a>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            document.getElementById('recentPlanningsSection').innerHTML =
+                '<div class="alert alert-danger mb-0 m-3">Erreur de chargement: ' + error.message + '</div>';
+        });
+    }
+
+    function loadSystemStats() {
+        fetch('/database_stats')
+        .then(response => response.json())
+        .then(stats => {
+            const section = document.getElementById('systemStatsSection');
+            section.innerHTML = `
+                <div class="row text-center g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <span class="text-muted small fw-bold text-uppercase d-block mb-1">Taxis Actifs</span>
+                            <h3 class="text-primary mb-0 fw-bold">${stats.taxis_actifs}</h3>
+                            <small class="text-muted">Chauffeurs référencés</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <span class="text-muted small fw-bold text-uppercase d-block mb-1">Secteurs Nice</span>
+                            <h3 class="text-success mb-0 fw-bold">${stats.secteurs}</h3>
+                            <small class="text-muted">Zones géographiques</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <span class="text-muted small fw-bold text-uppercase d-block mb-1">Pôles Médicaux</span>
+                            <h3 class="text-info mb-0 fw-bold">${stats.locations}</h3>
+                            <small class="text-muted">Hôpitaux & cliniques</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <span class="text-muted small fw-bold text-uppercase d-block mb-1">Plannings Archivés</span>
+                            <h3 class="text-warning mb-0 fw-bold">${stats.plannings_archives}</h3>
+                            <small class="text-muted">Feuilles de route</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            document.getElementById('systemStatsSection').innerHTML =
+                '<div class="text-muted p-3 text-center">Statistiques opérationnelles en attente</div>';
+        });
+    }
+});
+</script>
+
+<%- include('partials/footer') %>

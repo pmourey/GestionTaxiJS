@@ -1,0 +1,161 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <h1 class="h2 mb-0">
+                    <i class="fas fa-users-cog text-primary"></i>
+                    Gestion des Taxis
+                </h1>
+                <a href="/" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour Accueil
+                </a>
+            </div>
+
+            <div class="alert alert-info py-2 mb-4">
+                <i class="fas fa-info-circle me-1"></i>
+                Cliquez sur les jours de disponibilité (vert = actif, gris = repos) pour chaque taxi, puis cliquez sur <strong>Sauvegarder</strong>.
+            </div>
+
+            <div class="row">
+                <% if (typeof taxis !== 'undefined' && taxis.length > 0) { %>
+                    <% taxis.forEach(function(taxi) { %>
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="taxi-card-header text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">
+                                        <i class="fas fa-taxi text-warning me-2"></i><%= taxi.name %>
+                                    </h5>
+                                    <span class="badge bg-light text-dark fw-bold">Radio : <%= taxi.phone %></span>
+                                </div>
+                            </div>
+                            <div class="card-body p-4">
+                                <p class="mb-3">
+                                    <strong class="text-secondary">Secteurs préférentiels:</strong> 
+                                    <span class="badge bg-info text-white ms-1"><%= taxi.sector_preference || 'Tous secteurs' %></span>
+                                </p>
+
+                                <!-- Disponibilités semaine -->
+                                <div class="mb-3">
+                                    <h6 class="small text-muted fw-bold">Disponibilités en semaine:</h6>
+                                    <div class="btn-group btn-group-sm w-100" role="group" data-taxi-id="<%= taxi.id %>" data-period="semaine">
+                                        <% 
+                                        const weekDays = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
+                                        const weekAvail = taxi.disponibility_semaine || {};
+                                        weekDays.forEach(function(day) {
+                                            const isActive = weekAvail[day] === true;
+                                        %>
+                                        <button type="button" class="btn day-btn <%= isActive ? 'btn-success' : 'btn-outline-secondary' %>"
+                                                data-day="<%= day %>">
+                                            <%= day.slice(0, 3).toUpperCase() %>
+                                        </button>
+                                        <% }); %>
+                                    </div>
+                                </div>
+
+                                <!-- Disponibilités weekend -->
+                                <div class="mb-3">
+                                    <h6 class="small text-muted fw-bold">Disponibilités week-end:</h6>
+                                    <div class="btn-group btn-group-sm w-50" role="group" data-taxi-id="<%= taxi.id %>" data-period="weekend">
+                                        <% 
+                                        const weekendDays = ['samedi', 'dimanche'];
+                                        const weekendAvail = taxi.disponibility_weekend || {};
+                                        weekendDays.forEach(function(day) {
+                                            const isActive = weekendAvail[day] === true;
+                                        %>
+                                        <button type="button" class="btn day-btn <%= isActive ? 'btn-success' : 'btn-outline-secondary' %>"
+                                                data-day="<%= day %>">
+                                            <%= day.slice(0, 3).toUpperCase() %>
+                                        </button>
+                                        <% }); %>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid mt-3">
+                                    <button class="btn btn-outline-primary save-taxi-btn" data-taxi-id="<%= taxi.id %>">
+                                        <i class="fas fa-save me-1"></i> Sauvegarder
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-12">
+                        <div class="alert alert-warning">Aucun taxi enregistré.</div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle jour
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('day-btn')) {
+            e.target.classList.toggle('btn-success');
+            e.target.classList.toggle('btn-outline-secondary');
+        }
+    });
+
+    // Sauvegarde disponibilité
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.save-taxi-btn');
+        if (btn) {
+            const taxiId = btn.dataset.taxiId;
+            const card = btn.closest('.card');
+
+            const semaineGroup = card.querySelector('[data-period="semaine"]');
+            const availabilitySemaine = {};
+            semaineGroup.querySelectorAll('.day-btn').forEach(b => {
+                availabilitySemaine[b.dataset.day] = b.classList.contains('btn-success');
+            });
+
+            const weekendGroup = card.querySelector('[data-period="weekend"]');
+            const availabilityWeekend = {};
+            weekendGroup.querySelectorAll('.day-btn').forEach(b => {
+                availabilityWeekend[b.dataset.day] = b.classList.contains('btn-success');
+            });
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sauvegarde...';
+
+            fetch('/update_taxi_availability', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    taxi_id: taxiId,
+                    availability_semaine: availabilitySemaine,
+                    availability_weekend: availabilityWeekend
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                if (data.success) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Sauvegardé';
+                    btn.className = 'btn btn-success save-taxi-btn';
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-save me-1"></i> Sauvegarder';
+                        btn.className = 'btn btn-outline-primary save-taxi-btn';
+                    }, 2000);
+                } else {
+                    btn.innerHTML = '<i class="fas fa-exclamation"></i> Erreur';
+                    btn.className = 'btn btn-danger save-taxi-btn';
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save me-1"></i> Sauvegarder';
+                btn.className = 'btn btn-outline-primary save-taxi-btn';
+            });
+        }
+    });
+});
+</script>
+
+<%- include('partials/footer') %>

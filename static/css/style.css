@@ -1,0 +1,364 @@
+/**
+ * Charte Graphique - Système de Planification Taxi Médical Nice
+ * Thème moderne, ergonomique et adapté à la mobilité médicale
+ **/
+
+:root {
+    --primary-color: #0284c7;
+    --primary-hover: #0369a1;
+    --primary-light: #e0f2fe;
+    --primary-soft: #f0f9ff;
+    --navy-dark: #0f172a;
+    --navy-surface: #1e293b;
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    --text-main: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+}
+
+/* Reset de base & Typographie */
+body {
+    background-color: var(--body-bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .display-5, .brand-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+}
+
+/* Navigation Principale */
+.main-navbar {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.75rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.brand-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(2, 132, 199, 0.25);
+    color: #38bdf8;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.main-navbar .nav-link {
+    font-weight: 500;
+    font-size: 0.925rem;
+    color: #94a3b8 !important;
+    padding: 0.5rem 0.85rem !important;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.main-navbar .nav-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.main-navbar .nav-link.active {
+    color: #ffffff !important;
+    background: rgba(2, 132, 199, 0.2);
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: background 0.15s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+/* Boutons Personnalisés */
+.btn-primary-custom, .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1.15rem;
+    box-shadow: 0 1px 2px rgba(2, 132, 199, 0.15);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-custom:hover, .btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px -2px rgba(2, 132, 199, 0.3);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+}
+
+/* Cartes & Conteneurs */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+}
+
+.card-header.bg-info {
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+}
+
+.card-header.bg-secondary {
+    background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important;
+}
+
+/* Hero Section */
+.hero-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+    border: 1px solid #bae6fd;
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Cartes d'Accès Rapide */
+.action-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+
+.action-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.action-card-icon.primary {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.action-card-icon.success {
+    background-color: #d1fae5;
+    color: var(--success-color);
+}
+
+.action-card-icon.warning {
+    background-color: #fef3c7;
+    color: var(--warning-color);
+}
+
+/* Courses & Planning Cards */
+.taxi-planning-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.taxi-card-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.course-item {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    transition: all 0.15s ease;
+}
+
+.course-item:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.time-pill {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+}
+
+/* Disponibilités Taxis (Manage Taxis) */
+.day-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.45rem 0.25rem;
+    transition: all 0.15s ease;
+}
+
+.day-btn.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(5, 150, 105, 0.2);
+}
+
+/* Tableaux */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background-color: var(--border-subtle);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 1rem;
+}
+
+.table td {
+    padding: 0.95rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Footer */
+.app-footer {
+    background-color: #ffffff;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Badges */
+.badge {
+    font-weight: 600;
+    padding: 0.35em 0.65em;
+    border-radius: var(--radius-sm);
+}
+
+/* Alertes & Notifications */
+.alert {
+    border-radius: var(--radius-md);
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.alert-info {
+    background-color: #f0f9ff;
+    color: #0369a1;
+    border-left: 4px solid var(--primary-color);
+}
+
+.alert-warning {
+    background-color: #fffbeb;
+    color: #92400e;
+    border-left: 4px solid var(--warning-color);
+}
+
+.alert-success {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left: 4px solid var(--danger-color);
+}

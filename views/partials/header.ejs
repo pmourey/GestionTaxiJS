@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= typeof title !== 'undefined' ? title : "Système de Planification Taxi Médical" %></title>
+    <meta name="description" content="Planification automatique et optimisée des courses de taxi médical sur Nice">
+    <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : "Système de Planification Taxi Médical" %>">
+    <meta property="og:description" content="Planification automatique et optimisée des courses de taxi médical sur Nice">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Styles personnalisés -->
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation Principale -->
+    <nav class="navbar navbar-expand-lg navbar-dark main-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="brand-icon me-2">
+                    <i class="fas fa-taxi"></i>
+                </span>
+                <span class="brand-name">Taxi Médical</span>
+                <span class="brand-pill ms-2">Nice</span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-3">
+                    <li class="nav-item">
+                        <a class="nav-link <%= typeof activeTab !== 'undefined' && activeTab === 'home' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1"></i> Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <%= typeof activeTab !== 'undefined' && (activeTab === 'planning_auto' || activeTab === 'history') ? 'active' : '' %>" href="#" id="planningDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-calendar-alt me-1"></i> Planification
+                        </a>
+                        <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="planningDropdown">
+                            <li><a class="dropdown-item py-2" href="/planning_auto">
+                                <i class="fas fa-magic text-primary me-2"></i> Planification Automatique
+                            </a></li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li><a class="dropdown-item py-2" href="/planning_history">
+                                <i class="fas fa-history text-secondary me-2"></i> Historique & Archives
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= typeof activeTab !== 'undefined' && activeTab === 'manage_taxis' ? 'active' : '' %>" href="/manage_taxis">
+                            <i class="fas fa-users-cog me-1"></i> Flotte & Taxis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= typeof activeTab !== 'undefined' && activeTab === 'maintenance' ? 'active' : '' %>" href="/database_maintenance">
+                            <i class="fas fa-database me-1"></i> Maintenance
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= typeof activeTab !== 'undefined' && activeTab === 'about' ? 'active' : '' %>" href="/about">
+                            <i class="fas fa-info-circle me-1"></i> À propos
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center mt-3 mt-lg-0">
+                    <a href="/planning_auto" class="btn btn-sm btn-primary-custom px-3">
+                        <i class="fas fa-plus me-1"></i> Nouveau Planning
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="py-4 flex-grow-1">
+        <% if (typeof flashMessages !== 'undefined' && flashMessages && flashMessages.length > 0) { %>
+            <div class="container mb-3">
+                <% flashMessages.forEach(function(msg) { %>
+                    <div class="alert alert-<%= msg.category === 'error' ? 'danger' : msg.category %> alert-dismissible fade show shadow-sm" role="alert">
+                        <%= msg.message %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>

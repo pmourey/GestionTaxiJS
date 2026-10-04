@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Une erreur est survenue</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-danger fw-bold"><%= typeof error_message !== 'undefined' ? error_message : "Une erreur inattendue s'est produite." %></p>
+                    <% if (typeof filename !== 'undefined' && filename) { %>
+                    <p class="text-muted small">Fichier concerné: <%= filename %></p>
+                    <% } %>
+                    <a href="/" class="btn btn-outline-primary mt-2">
+                        <i class="fas fa-home me-1"></i>Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

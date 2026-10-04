@@ -1,0 +1,7 @@
+{
+  "name": "Système de Planification Taxi Médical",
+  "description": "Planification automatique et optimisée des courses de taxi médical sur Nice",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="fas fa-map-marked-alt text-warning me-2"></i>Assignation manuelle des destinations</h2>
+            <p class="text-muted">Les destinations suivantes n'ont pas pu être reconnues avec certitude. Veuillez confirmer ou sélectionner une destination :</p>
+
+            <form method="post" action="/assign_destinations" class="bg-white p-4 rounded shadow-sm">
+                <% if (typeof unresolved_courses !== 'undefined' && unresolved_courses.length > 0) { %>
+                    <% unresolved_courses.forEach(function(course, idx) { %>
+                    <div class="course-block mb-4 p-3 border rounded bg-light">
+                        <h5>Course #<%= idx + 1 %> - <%= course.patient_name || course.contact_name %></h5>
+                        <p class="mb-1"><strong>Départ :</strong> <%= course.pickup_address %></p>
+                        <p class="mb-2"><strong>Destination brute :</strong> <%= course.destination %></p>
+
+                        <div class="mb-3">
+                            <label class="form-label">Choisir une destination existante :</label>
+                            <select class="form-select" name="dest_<%= course.id || idx %>">
+                                <option value="">-- Sélectionner --</option>
+                                <% if (typeof locations !== 'undefined') { %>
+                                    <% locations.forEach(function(loc) { %>
+                                    <option value="<%= loc.id %>"><%= loc.city %> - <%= loc.address %></option>
+                                    <% }); %>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check me-1"></i>Valider les corrections</button>
+                <% } else { %>
+                    <div class="alert alert-success">Toutes les destinations ont été résolues automatiquement.</div>
+                    <a href="/planning_auto" class="btn btn-primary">Retour à la planification</a>
+                <% } %>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
